@@ -264,7 +264,7 @@ RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(Player, ClockingIn
 		{
 			['author'] = {
 				['name'] = GetPlayerName(source),
-				['icon_url'] = exports.ef_lib:GetAvatar(source),
+				['icon_url'] = exports.ef_discord:GetPlayerAvatar(source),
 			},
 			['title'] = (ClockingIn and "Clock In") or "Clock Out",
 			['color'] = (ClockingIn and 3858002) or 16068139,

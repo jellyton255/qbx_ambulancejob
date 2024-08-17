@@ -56,6 +56,7 @@ RegisterNetEvent('hospital:client:Revive', function()
         lib.requestAnimDict(InBedDict)
         TaskPlayAnim(cache.ped, InBedDict, InBedAnim, 8.0, 1.0, -1, 1, 0, false, false, false)
         TriggerEvent('qbx_medical:client:playerRevived')
+        lib.callback('qbx_medical:server:resetHungerAndThirst')
         CanLeaveBed = true
     end
 

@@ -75,9 +75,15 @@ RegisterNetEvent('hospital:server:RevivePlayer', function(playerId)
 	if not patient then return end
 
 	if player.PlayerData.job.type == 'ems' then
-		patient.Functions.RemoveMoney("bank", reviveCost, "San Andreas Medical Network - Payment")
-		exports['fd_banking']:AddMoney("fire", reviveCost - revivePayment)
-		player.Functions.AddMoney("bank", revivePayment, "San Andreas Medical Network - Pay")
+		patient.Functions.RemoveMoney("bank", reviveCost, "San Andreas Medical Network - Payment",
+			{ type = "purchase:services", business = player.PlayerData.job.name })
+		exports.fd_banking:AddMoney(player.PlayerData.job.name, reviveCost - revivePayment,
+			"San Andreas Medical Network - Payment",
+			{ type = "sale-services", employee = player.PlayerData.citizenid, purchaser = patient.PlayerData.citizenid }
+		)
+		player.Functions.AddMoney("bank", revivePayment, "San Andreas Medical Network - Pay",
+			{ type = "commission-services", business = player.PlayerData.job.name }
+		)
 
 		TriggerClientEvent('hospital:client:SendBillEmail', patient.PlayerData.source, reviveCost)
 	end

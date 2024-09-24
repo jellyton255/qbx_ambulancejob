@@ -32,8 +32,10 @@ end)
 ---@param src number
 local function billPlayer(src)
 	local player = exports.qbx_core:GetPlayer(src)
-	player.Functions.RemoveMoney('bank', sharedConfig.checkInCost, 'San Andreas Medical Network: Medical Bills')
-	config.depositSociety('fire', sharedConfig.checkInCost)
+	player.Functions.RemoveMoney('bank', sharedConfig.checkInCost,
+		'San Andreas Medical Network: Medical Bills (Hospital)', { type = "purchase:services", subtype = "medical" })
+	config.depositSociety('fire', sharedConfig.checkInCost, "Hospital Bills: " .. player.PlayerData.citizenid,
+		{ type = "sale:services", subtype = "medical", purchaser = player.PlayerData.citizenid })
 	TriggerClientEvent('hospital:client:SendBillEmail', src, sharedConfig.checkInCost)
 end
 

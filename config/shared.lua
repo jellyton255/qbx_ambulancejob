@@ -105,5 +105,22 @@ return {
             { label = "Medical Center", coords = vector3(-447.11, -341.41, 34.5) },  -- Mount Zonah
             { label = "Medical Center", coords = vector3(361.88, -1410.51, 32.52) }, -- Central LS
         }
+		
     },
+    reviveDuration = { -- Correspond job grade numbers to their Duration of time it takes to revive someone
+		default = 100000,
+		[0] = 80000, --Candidate
+		[1] = 60000, --Firefighter 1
+		[2] = 50000, --Firefighter 2
+		[3] = 40000, --Firefighter 3
+		[4] = 30000, --Engineer
+		[5] = 20000, --Paramedic
+		[6] = 10000, --Lieutenant
+		[7] = 8000, --Captain
+		[8] = 5000,  --Battalion Chief
+		[9] = 5000,  --Deputy District Chief
+		[10] = 5000, --District Chief
+		[11] = 5000, --High Command
+		[12] = 5000, --Commissioner
+	},  
 }

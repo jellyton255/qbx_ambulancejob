@@ -172,9 +172,8 @@ lib.callback.register('qbx_ambulancejob:server:checkIn', checkIn)
 exports('CheckIn', checkIn)
 
 local function respawn(src)
-	local player = exports.qbx_core:GetPlayer(src)
 	local closestHospital
-	if player.PlayerData.metadata.injail > 0 then
+	if Player(src)?.state.jailTime > 0 then
 		closestHospital = 'jail'
 	else
 		local coords = GetEntityCoords(GetPlayerPed(src))

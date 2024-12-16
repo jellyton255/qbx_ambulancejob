@@ -63,6 +63,24 @@ RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalNa
 
 	billPlayer(src)
 	hospitalBedsTaken[hospitalName][bedIndex] = true
+	local Player = exports.qbx_core:GetPlayer(src)
+	exports.ef_prime:CreateLog("PlayerHospitalEnteredBed", "Hospital Bed", "green", nil, false, {
+		author = {
+			name = GetPlayerName(src) .. " (Citizen ID: " .. Player.PlayerData.citizenid .. ")"
+		},
+		fields = {
+			{
+				name = "Hospital Name",
+				value = hospitalName,
+				inline = true
+			},
+			{
+				name = "Bed index",
+				value = bedIndex,
+				inline = true
+			},
+		}
+	}, src)
 end)
 
 RegisterNetEvent('qbx_ambulancejob:server:playerLeftBed', function(hospitalName, bedIndex)

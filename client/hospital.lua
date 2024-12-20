@@ -21,6 +21,11 @@ local function setBedCam()
         NetworkResurrectLocalPlayer(pos.x, pos.y, pos.z, GetEntityHeading(cache.ped), true, false)
     end
 
+    if not bedOccupyingData then
+        lib.print.error("No bed data found for", hospitalOccupying, bedIndexOccupying)
+        return
+    end
+
     bedObject = GetClosestObjectOfType(bedOccupyingData.coords.x, bedOccupyingData.coords.y, bedOccupyingData.coords.z,
         1.0, bedOccupyingData.model, false, false, false)
     FreezeEntityPosition(bedObject, true)

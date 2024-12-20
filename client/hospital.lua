@@ -6,6 +6,7 @@ local cam
 local hospitalOccupying
 local bedIndexOccupying
 local playerState = LocalPlayer.state
+local Interactions = {}
 
 ---Teleports the player to lie down in bed and sets the player's camera.
 local function setBedCam()
@@ -140,25 +141,23 @@ if config.useTarget then
     CreateThread(function()
         for hospitalName, hospital in pairs(sharedConfig.locations.hospitals) do
             if hospital.checkIn then
-                exports.ox_target:addBoxZone({
-                    name = hospitalName .. '_checkin',
+                exports.sleepless_interact:addCoords({
+                    id = hospitalName .. '_checkin',
                     coords = hospital.checkIn,
-                    size = vec3(2, 1, 2),
-                    rotation = 18,
+                    renderDistance = 7.5,
+                    activeDistance = 2.5,
                     debug = config.debugPoly,
                     options = {
                         {
+                            label = locale('text.check'),
+                            icon = 'fas fa-clipboard',
                             onSelect = function()
                                 checkIn(hospitalName)
                             end,
-                            icon = 'fas fa-clipboard',
-                            label = locale('text.check'),
-                            distance = 1.5,
                         },
                         {
-                            type = "client",
-                            icon = "fa fa-clipboard",
                             label = "Check Carried Person In",
+                            icon = "fa fa-clipboard",
                             canInteract = function()
                                 return playerState.isCarrying or playerState.isEscorting
                             end,
@@ -169,10 +168,11 @@ if config.useTarget then
                                         lib.callback.await("qbx_ambulancejob:server:getOpenBed", false, hospitalName))
                                 end
                             end,
-                            distance = 2.0,
                         }
                     }
                 })
+
+                Interactions[#Interactions + 1] = hospitalName .. '_checkin'
             end
 
             for i = 1, #hospital.beds do
@@ -331,4 +331,8 @@ AddEventHandler('onResourceStop', function(resourceName)
     if cache.resource ~= resourceName then return end
     lib.hideTextUI()
     onPlayerUnloaded()
+
+    for _, interaction in ipairs(Interactions) do
+        exports.sleepless_interact:removeById(interaction)
+    end
 end)

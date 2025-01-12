@@ -136,9 +136,7 @@ RegisterNetEvent('hospital:server:UseFirstAid', function(targetId)
 end)
 
 lib.callback.register('qbx_ambulancejob:server:getNumDoctors', function()
-	local count = exports.qbx_core:GetDutyCountType('ems')
-	lib.print.debug("Returning 'doctor' count", count)
-	return count
+	return exports.qbx_core:GetDutyCountType('ems')
 end)
 
 --[[

@@ -191,7 +191,7 @@ exports('CheckIn', checkIn)
 
 local function respawn(src)
 	local closestHospital
-	if Player(src)?.state.jailTime > 0 then
+	if Player(src)?.state.jailTime then
 		closestHospital = 'jail'
 	else
 		local coords = GetEntityCoords(GetPlayerPed(src))

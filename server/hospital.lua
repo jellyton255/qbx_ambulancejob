@@ -70,6 +70,12 @@ RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalNa
 	end
 
 	billPlayer(src)
+
+	if playerState then
+		playerState.hospitalName = hospitalName
+		playerState.bedIndex = bedIndex
+	end
+
 	hospitalBedsTaken[hospitalName][bedIndex] = true
 
 	local player = exports.qbx_core:GetPlayer(src)
@@ -98,6 +104,19 @@ end)
 RegisterNetEvent('qbx_ambulancejob:server:playerLeftBed', function(hospitalName, bedIndex)
 	if GetInvokingResource() then return end
 	hospitalBedsTaken[hospitalName][bedIndex] = false
+end)
+
+AddEventHandler('playerDropped', function()
+	local src = source
+
+	local playerState = Player(src).state
+
+	if not playerState?.hospitalName or not playerState?.bedIndex then return end
+
+	hospitalBedsTaken[playerState.hospitalName][playerState.bedIndex] = false
+
+	playerState.hospitalName = nil
+	playerState.bedIndex = nil
 end)
 
 ---@param playerId number

@@ -28,11 +28,14 @@ local function setBedCam()
 
     bedObject = GetClosestObjectOfType(bedOccupyingData.coords.x, bedOccupyingData.coords.y, bedOccupyingData.coords.z,
         1.0, bedOccupyingData.model, false, false, false)
+
     FreezeEntityPosition(bedObject, true)
 
     SetEntityCoords(cache.ped, bedOccupyingData.coords.x, bedOccupyingData.coords.y, bedOccupyingData.coords.z + 0.02,
         true, true, true, false)
+
     Wait(500)
+
     FreezeEntityPosition(cache.ped, true)
 
     lib.requestAnimDict(InBedDict)
@@ -56,9 +59,13 @@ local function setBedCam()
 end
 
 local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
-    lib.print.debug('putPlayerInBed', hospitalName, bedIndex, isRevive, skipOpenCheck, IsInHospitalBed)
+    lib.print.info('putPlayerInBed', hospitalName, bedIndex, isRevive, skipOpenCheck, IsInHospitalBed)
 
-    if IsInHospitalBed then return end
+    if IsInHospitalBed then
+        lib.print.warn("IsInHospitalBed: Player already in bed")
+        return
+    end
+
     if not skipOpenCheck then
         if lib.callback.await('qbx_ambulancejob:server:isBedTaken', false, hospitalName, bedIndex) then
             exports.qbx_core:Notify(locale('error.beds_taken'), 'error')
@@ -66,26 +73,33 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
         end
     end
 
-    lib.print.debug("In Bed")
+    lib.print.info("In Bed")
+
     hospitalOccupying = hospitalName
     bedIndexOccupying = bedIndex
     bedOccupyingData = sharedConfig.locations.hospitals[hospitalName].beds[bedIndex]
     IsInHospitalBed = true
+
     exports.qbx_medical:DisableDamageEffects()
     exports.qbx_medical:disableRespawn()
+
     CanLeaveBed = false
+
     setBedCam()
+
     CreateThread(function()
+        lib.print.info("Starting healing thread (something goes wrong with respawning somewhere here probably)")
         Wait(5)
         if isRevive or isRevive == nil then
             exports.qbx_core:Notify(locale('success.being_helped'), 'success')
             Wait(config.aiHealTimer * 1000)
             TriggerEvent('hospital:client:Revive')
         else
-            lib.print.debug("Can leave ped since no revive.")
+            lib.print.info("Can leave ped since no revive.")
             CanLeaveBed = true
         end
     end)
+
     TriggerServerEvent('qbx_ambulancejob:server:playerEnteredBed', hospitalName, bedIndex)
 end
 
@@ -219,59 +233,6 @@ if config.useTarget then
             end
         end
     end)
-else
-    CreateThread(function()
-        for hospitalName, hospital in pairs(sharedConfig.locations.hospitals) do
-            if hospital.checkIn then
-                lib.zones.box({
-                    coords = hospital.checkIn,
-                    size = vec3(2, 1, 2),
-                    rotation = 18,
-                    debug = config.debugPoly,
-                    onEnter = function()
-                        local numDoctors = lib.callback.await('qbx_ambulancejob:server:getNumDoctors')
-                        if numDoctors >= sharedConfig.minForCheckIn then
-                            lib.showTextUI(locale('text.call_doc'))
-                        else
-                            lib.showTextUI(locale('text.check_in'))
-                        end
-                    end,
-                    onExit = function()
-                        lib.hideTextUI()
-                    end,
-                    inside = function()
-                        if IsControlJustPressed(0, 38) then
-                            checkIn(hospitalName)
-                        end
-                    end,
-                })
-            end
-
-            for i = 1, #hospital.beds do
-                local bed = hospital.beds[i]
-                lib.zones.box({
-                    coords = bed.coords.xyz,
-                    size = vec3(1.9, 2.1, 2),
-                    rotation = bed.coords.w,
-                    debug = config.debugPoly,
-                    onEnter = function()
-                        if not IsInHospitalBed then
-                            lib.showTextUI(locale('text.lie_bed'))
-                        end
-                    end,
-                    onExit = function()
-                        lib.hideTextUI()
-                    end,
-                    inside = function()
-                        if IsControlJustPressed(0, 38) then
-                            lib.hideTextUI()
-                            putPlayerInBed(hospitalName, i, true)
-                        end
-                    end,
-                })
-            end
-        end
-    end)
 end
 
 local rightOffset = -1
@@ -303,7 +264,8 @@ local function leaveBed()
     IsInHospitalBed = false
     exports.qbx_medical:EnableDamageEffects()
 
-    if QBX.PlayerData.metadata.injail <= 0 then return end
+    if QBX.PlayerData.metadata.injail then return end
+
     TriggerEvent('prison:client:Enter', QBX.PlayerData.metadata.injail)
 end
 

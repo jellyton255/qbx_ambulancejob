@@ -52,7 +52,7 @@ local function handleDead(ped)
         displayRespawnText()
     end
 
-    --playDeadAnimation(ped)
+    playDeadAnimation(ped)
 end
 
 ---Player is able to send a notification to EMS there are any on duty

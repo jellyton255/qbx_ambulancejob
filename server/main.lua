@@ -47,10 +47,11 @@ end)
 
 ---@param playerId number
 RegisterNetEvent('hospital:server:TreatWounds', function(playerId)
+	local src = source
+
 	lib.print.debug('hospital:server:TreatWounds', playerId)
 
 	if GetInvokingResource() then return end
-	local src = source
 	local player = exports.qbx_core:GetPlayer(src)
 	local patient = exports.qbx_core:GetPlayer(playerId)
 
@@ -317,24 +318,29 @@ end)
 
 AddEventHandler('playerDropped', function()
 	local src = source
-	local Player = exports.qbx_core:GetPlayer(src)
+	local player = exports.qbx_core:GetPlayer(src)
 
-	if Player and (Player.PlayerData.job.name == "fire" and Player.PlayerData.job.onduty) then
-		TriggerEvent('QBCore:Everfall:EMS:Timeclock', Player, false)
-	end
+	if not player then return end
+	if not player.PlayerData.job.onduty then return end
+	if player.PlayerData.job.name ~= "fire" then return end
+
+	TriggerEvent('QBCore:Everfall:EMS:Timeclock', player, false)
 end)
 
 RegisterNetEvent("QBCore:Everfall:EMSClockIn", function(_source)
 	local src = source or _source
-	local Player = exports.qbx_core:GetPlayer(src)
+	local player = exports.qbx_core:GetPlayer(src)
 
-	TriggerEvent('QBCore:Everfall:EMS:Timeclock', Player, true)
+	if not player then return end
+
+	TriggerEvent('QBCore:Everfall:EMS:Timeclock', player, true)
 end)
 
 RegisterNetEvent("QBCore:Everfall:EMSClockOut", function(_source)
 	local src = source or _source
+	local player = exports.qbx_core:GetPlayer(src)
 
-	local Player = exports.qbx_core:GetPlayer(src)
+	if not player then return end
 
-	TriggerEvent('QBCore:Everfall:EMS:Timeclock', Player, false)
+	TriggerEvent('QBCore:Everfall:EMS:Timeclock', player, false)
 end)

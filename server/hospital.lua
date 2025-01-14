@@ -1,7 +1,5 @@
 --- Contains code relevant to the physical hospital building. Things like checking in, beds, spawning vehicles, etc.
 
----@class Player object from core
-
 local config = require 'config.server'
 local sharedConfig = require 'config.shared'
 local triggerEventHooks = require '@qbx_core.modules.hooks'
@@ -33,18 +31,28 @@ end)
 local function billPlayer(src)
 	local player = exports.qbx_core:GetPlayer(src)
 	player.Functions.RemoveMoney('bank', sharedConfig.checkInCost,
-		'San Andreas Medical Network: Medical Bills (Hospital)', { type = "purchase:services", subtype = "medical" })
-	config.depositSociety('fire', sharedConfig.checkInCost, "Hospital Bills: " .. player.PlayerData.citizenid,
-		{ type = "sale:services", subtype = "medical", purchaser = player.PlayerData.citizenid })
+		'San Andreas Medical Network: Medical Bills (Hospital)', {
+			type = "purchase:services",
+			subtype = "medical"
+		})
+
+	config.depositSociety('fire', sharedConfig.checkInCost, "Hospital Bills: " .. player.PlayerData.citizenid, {
+		type = "sale:services",
+		subtype = "medical",
+		purchaser = player.PlayerData.citizenid,
+	})
+
 	TriggerClientEvent('hospital:client:SendBillEmail', src, sharedConfig.checkInCost)
 end
 
 RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalName, bedIndex)
-	if GetInvokingResource() then return end
 	local src = source
 
+	if GetInvokingResource() then return end
+
 	local playerState = Player(src).state
-	if playerState.isCarrying or playerState.isEscorting then
+
+	if playerState?.isCarrying or playerState?.isEscorting then
 		local target = playerState.isCarrying or playerState.isEscorting
 		local targetState = Player(target)?.state
 
@@ -63,10 +71,14 @@ RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalNa
 
 	billPlayer(src)
 	hospitalBedsTaken[hospitalName][bedIndex] = true
-	local Player = exports.qbx_core:GetPlayer(src)
+
+	local player = exports.qbx_core:GetPlayer(src)
+
+	if not player then return end
+
 	exports.ef_prime:CreateLog("PlayerHospitalEnteredBed", "Hospital Bed", "green", nil, false, {
 		author = {
-			name = GetPlayerName(src) .. " (Citizen ID: " .. Player.PlayerData.citizenid .. ")"
+			name = GetPlayerName(src) .. " (Citizen ID: " .. player.PlayerData.citizenid .. ")"
 		},
 		fields = {
 			{
@@ -75,7 +87,7 @@ RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalNa
 				inline = true
 			},
 			{
-				name = "Bed index",
+				name = "Bed Index",
 				value = bedIndex,
 				inline = true
 			},
@@ -182,6 +194,7 @@ local function checkIn(src, patientSrc, hospitalName)
 	end
 
 	TriggerClientEvent('qbx_ambulancejob:client:checkedIn', patientSrc, hospitalName, bedIndex)
+
 	return true
 end
 

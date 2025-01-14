@@ -51,13 +51,16 @@ end)
 ---Revives player, healing all injuries
 ---Intended to be called from client or server.
 RegisterNetEvent('hospital:client:Revive', function()
-    lib.print.debug('hospital:client:Revive', 'IsInHospitalBed', IsInHospitalBed)
+    lib.print.info('hospital:client:Revive', 'IsInHospitalBed', IsInHospitalBed)
+
     if IsInHospitalBed then
         lib.requestAnimDict(InBedDict)
         TaskPlayAnim(cache.ped, InBedDict, InBedAnim, 8.0, 1.0, -1, 1, 0, false, false, false)
         TriggerEvent('qbx_medical:client:playerRevived')
-        lib.callback('qbx_medical:server:resetHungerAndThirst')
+        lib.callback.await('qbx_medical:server:resetHungerAndThirst')
         CanLeaveBed = true
+
+        lib.print.info("Healed in hospital, we are clear to leave the bed now.")
     end
 
     EmsNotified = false

@@ -35,24 +35,10 @@ local function displayRespawnText()
 end
 
 ---@param ped number
-local function playDeadAnimation(ped)
-    if IsInHospitalBed then
-        if not IsEntityPlayingAnim(ped, InBedDict, InBedAnim, 3) then
-            lib.requestAnimDict(InBedDict)
-            TaskPlayAnim(ped, InBedDict, InBedAnim, 1.0, 1.0, -1, 1, 0, false, false, false)
-        end
-    else
-        exports.qbx_medical:playDeadAnimation()
-    end
-end
-
----@param ped number
 local function handleDead(ped)
     if not IsInHospitalBed then
         displayRespawnText()
     end
-
-    playDeadAnimation(ped)
 end
 
 ---Player is able to send a notification to EMS there are any on duty

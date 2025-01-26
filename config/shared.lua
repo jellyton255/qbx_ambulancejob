@@ -8,11 +8,8 @@ return {
     locations = {                                  -- Various interaction points
         duty = {
             vector3(-260.31, 6319.41, 32.45),      -- Paleto Medical
-
-            vector3(1664.8, 3659.79, 35.27),       -- Sandy
-
+            vector3(1109.17, 2729.65, 39.27),      -- rt68
             vector3(-432.69, -318.04, 35.13),      -- Mount Zonah Timeclock
-
             vector3(349.26, -1429.4, 32.43),       -- Central LS
             vector3(351.31, -1405.04, 32.53),      -- Central LS
         },
@@ -32,7 +29,7 @@ return {
                 },
                 locations = {
                     vector3(-262.46, 6323.93, 32.50), -- Paletovector3(-1881.27, -356.85, 41.25),
-                    vector3(1660.77, 3659.96, 35.34), --Sandy
+                    vector3(1115.32, 2741.76, 38.52), -- rt68
                     vector3(-453.65, -308.06, 35.32), -- Mount Zonah Closet
                     vector3(381.11, -1409.68, 33.21), -- Central LS
                 }
@@ -78,15 +75,18 @@ return {
                     { coords = vector4(-244.54, 6317.94, 33.45, 45.66), model = 1004440924 },
                 },
             },
-            sandy = {
-                coords = vector3(1674.57, 3666.8, 35.14),
-                checkIn = vector3(1674.57, 3666.8, 35.14),
+            rt68 = {
+                coords = vector3(1100.19, 2724.6, 38.79),
+                checkIn = vector3(1100.19, 2724.6, 38.79),
                 beds = {
-                    { coords = vector4(1676.07, 3647.12, 35.34, 30), model = 1004440924 },
-                    { coords = vector4(1671.83, 3644.67, 35.34, 30), model = 1004440924 },
-                    { coords = vector4(1667.24, 3642.03, 35.34, 30), model = 1004440924 },
-                    { coords = vector4(1662.83, 3639.48, 35.34, 30), model = 1004440924 },
-
+                    { coords = vector4(1102.67, 2741.12, 38.39, 180), model = 955845118 },
+                    { coords = vector4(1105.74, 2740.98, 38.39, 180), model = 955845118 },
+                    { coords = vector4(1108.73, 2740.95, 38.39, 180), model = 955845118 },
+                    { coords = vector4(1107.08, 2733.39, 38.39, 0),   model = 955845118 },
+                    { coords = vector4(1102.58, 2733.6, 38.39, 0),    model = 955845118 },
+                    { coords = vector4(1122.95, 2738.02, 38.39, 90),  model = 955845118 },
+                    { coords = vector4(1122.79, 2733.71, 38.39, 90),  model = 955845118 },
+                    { coords = vector4(1122.47, 2729.3, 38.39, 90),   model = 955845118 },
                 },
             },
             jail = {
@@ -101,7 +101,7 @@ return {
         },
         stations = {
             { label = "Medical Center", coords = vector3(-251.03, 6321.97, 37.62) }, -- Paleto Medical
-            { label = "Medical Center", coords = vector3(1664.8, 3659.79, 35.27) },  -- Sandy Medical
+            { label = "Medical Center", coords = vector3(1100.19, 2724.6, 38.79) },  -- RT68
             { label = "Medical Center", coords = vector3(-447.11, -341.41, 34.5) },  -- Mount Zonah
             { label = "Medical Center", coords = vector3(361.88, -1410.51, 32.52) }, -- Central LS
         }

@@ -104,8 +104,7 @@ return {
         stations = {
             { label = "Medical Center", coords = vector3(-251.03, 6321.97, 37.62) }, -- Paleto Medical
             { label = "Medical Center", coords = vector3(1100.19, 2724.6, 38.79) },  -- RT68
-            { label = "Medical Center", coords = vector3(-447.11, -341.41, 34.5) },  -- Mount Zonah
-            { label = "Medical Center", coords = vector3(361.88, -1410.51, 32.52) }, -- Central LS
+            { label = "Medical Center", coords = vector3(311.81, -583.92, 43.48) },  -- Pillbox
         }
     },
 }

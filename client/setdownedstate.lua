@@ -47,7 +47,7 @@ local function handleRequestingEms()
         qbx.drawText2d({ text = locale('info.request_help'), coords = textLocation - textRequestOffset, scale = 0.6 })
         if IsControlJustPressed(0, 47) then
             TriggerServerEvent('cd_dispatch:AddNotification', {
-                job_table = { 'fire' },
+                job_table = { 'sams' },
                 coords = GetEntityCoords(cache.ped),
                 title = 'Downed Individual',
                 message = 'Citizens reporting a downed individual.',

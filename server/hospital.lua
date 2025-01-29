@@ -36,7 +36,7 @@ local function billPlayer(src)
 			subtype = "medical"
 		})
 
-	config.depositSociety('fire', sharedConfig.checkInCost, "Hospital Bills: " .. player.PlayerData.citizenid, {
+	config.depositSociety('sams', sharedConfig.checkInCost, "Hospital Bills: " .. player.PlayerData.citizenid, {
 		type = "sale:services",
 		subtype = "medical",
 		purchaser = player.PlayerData.citizenid,

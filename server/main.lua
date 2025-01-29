@@ -316,7 +316,7 @@ AddEventHandler('playerDropped', function()
 
 	if not player then return end
 	if not player.PlayerData.job.onduty then return end
-	if player.PlayerData.job.name ~= "fire" then return end
+	if player.PlayerData.job.type == "ems" then return end
 
 	TriggerEvent('QBCore:Everfall:EMS:Timeclock', player, false)
 end)

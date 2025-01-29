@@ -242,7 +242,7 @@ end)
 
 RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(player, ClockingIn)
 	local source = player.PlayerData.source
-	local department = "SAFD"
+	local department = "SAMS"
 	local data = {
 		Webhook = serverConfig.logWebhook,
 		Icon = "https://files.jellyton.me/ShareX/2023/04/LSCFD-GTAV-Logo.png"
@@ -316,7 +316,7 @@ AddEventHandler('playerDropped', function()
 
 	if not player then return end
 	if not player.PlayerData.job.onduty then return end
-	if player.PlayerData.job.type == "ems" then return end
+	if player.PlayerData.job.type ~= "ems" then return end
 
 	TriggerEvent('QBCore:Everfall:EMS:Timeclock', player, false)
 end)

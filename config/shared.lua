@@ -42,27 +42,17 @@ return {
 
         ---@type table<string, {coords: vector3, checkIn?: vector3, beds: Bed[]}>
         hospitals = {
-            zonah = {
-                coords = vector3(-435.73, -325.32, 34.81),
-                checkIn = vector3(-435.73, -325.32, 34.81),
+            pillbox_upper = {
+                coords = vector3(311.81, -583.92, 43.48),
+                checkIn = vector3(311.81, -583.92, 43.48),
                 beds = {
-                    { coords = vector4(-459.01, -279.77, 34.84, 205.9),  model = 2117668672 },
-                    { coords = vector4(-455.17, -278.05, 35.84, 205.65), model = 2117668672 },
-                    { coords = vector4(-451.49, -285.19, 35.83, 27.95),  model = 2117668672 },
-                    { coords = vector4(-448.35, -283.65, 35.83, 22.96),  model = 2117668672 },
-                },
-            },
-            centralls = {
-                coords = vector3(348.75, -1402.86, 32.64),
-                checkIn = vector3(348.75, -1402.86, 32.64),
-                beds = {
-                    { coords = vector4(326.61, -1408.38, 32.13, 47.87),  model = -708683881 },
-                    { coords = vector4(325.12, -1410.3, 32.15, 48.05),   model = -708683881 },
-                    { coords = vector4(323.56, -1412.16, 32.15, 52.09),  model = -708683881 },
-                    { coords = vector4(322.0, -1414.0, 32.13, 50.84),    model = -708683881 },
-                    { coords = vector4(318.37, -1410.37, 32.13, 318.77), model = -708683881 },
-                    { coords = vector4(316.37, -1408.87, 32.15, 317.32), model = -708683881 },
-                    { coords = vector4(314.54, -1407.25, 32.15, 312.95), model = -708683881 },
+                    { coords = vector4(344.39, -590.36, 42.95, 60.0),  model = -119016924 },
+                    { coords = vector4(342.95, -593.54, 42.94, 60.0),  model = -119016924 },
+                    { coords = vector4(341.93, -596.66, 42.94, 320.0), model = -119016924 },
+                    { coords = vector4(338.26, -595.48, 42.94, 320.0), model = -119016924 },
+                    { coords = vector4(334.96, -594.18, 42.94, 320.0), model = -119016924 },
+                    { coords = vector4(331.28, -592.73, 42.94, 320.0), model = -119016924 },
+                    { coords = vector4(332.52, -589.43, 42.94, 320.0), model = -119016924 },
                 },
             },
             paleto = {

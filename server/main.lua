@@ -240,27 +240,21 @@ AddEventHandler('onResourceStart', function(resource)
 	registerArmory()
 end)
 
-RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(Player, ClockingIn)
-	local source = Player.PlayerData.source
+RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(player, ClockingIn)
+	local source = player.PlayerData.source
 	local department = "SAFD"
 	local data = {
 		Webhook = serverConfig.logWebhook,
 		Icon = "https://files.jellyton.me/ShareX/2023/04/LSCFD-GTAV-Logo.png"
 	}
 
+	local name = player.PlayerData.charinfo.firstname .. " " .. player.PlayerData.charinfo.lastname
+	local discordId = exports.ef_lib:GetDiscordID(source)
 	local message
 	if ClockingIn then
-		message = ":inbox_tray:  **" ..
-			Player.PlayerData.charinfo.firstname ..
-			" " ..
-			Player.PlayerData.charinfo.lastname ..
-			" (<@" .. exports.ef_lib:GetDiscordID(source) .. ">)** has clocked in for duty."
+		message = ":inbox_tray:  **" .. name .. " (<@" .. discordId .. ">)** has clocked in for duty."
 	else
-		message = ":outbox_tray:  **" ..
-			Player.PlayerData.charinfo.firstname ..
-			" " ..
-			Player.PlayerData.charinfo.lastname ..
-			" (<@" .. exports.ef_lib:GetDiscordID(source) .. ">)** has clocked out."
+		message = ":outbox_tray:  **" .. name .. " (<@" .. discordId .. ">)** has clocked out."
 	end
 
 	local fields
@@ -268,12 +262,12 @@ RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(Player, ClockingIn
 		fields = {
 			{
 				name = "CitizenID",
-				value = Player.PlayerData.citizenid,
+				value = player.PlayerData.citizenid,
 				inline = true,
 			},
 			{
 				name = "Grade",
-				value = Player.PlayerData.job.grade.name,
+				value = player.PlayerData.job.grade.name,
 				inline = true,
 			},
 		}
@@ -281,7 +275,7 @@ RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(Player, ClockingIn
 		fields = {
 			{
 				name = "CitizenID",
-				value = Player.PlayerData.citizenid,
+				value = player.PlayerData.citizenid,
 				inline = true,
 			},
 			{

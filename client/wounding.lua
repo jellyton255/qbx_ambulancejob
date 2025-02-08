@@ -34,7 +34,7 @@ lib.callback.register('hospital:client:UseIfaks', function()
         return true
     else
         StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
         return false
     end
 end)
@@ -71,7 +71,7 @@ lib.callback.register('hospital:client:UseBandage', function()
     else
         StopAnimTask(cache.ped, 'anim@amb@business@weed@weed_inspecting_high_dry@', 'weed_inspecting_high_base_inspector',
             1.0)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
         return false
     end
 end)
@@ -104,7 +104,7 @@ lib.callback.register('hospital:client:UsePainkillers', function()
         return true
     else
         StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
         return false
     end
 end)

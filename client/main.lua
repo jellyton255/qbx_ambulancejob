@@ -8,46 +8,6 @@ EmsNotified = false
 CanLeaveBed = true
 OnPainKillers = false
 
----Notifies EMS of a injury at a location
----@param coords vector3
----@param text string
-RegisterNetEvent('hospital:client:ambulanceAlert', function(coords, text)
-    if GetInvokingResource() then return end
-    local streets = qbx.getStreetName(coords)
-    exports.qbx_core:Notify(locale('text.alert'), 'inform', nil, text .. ' | ' .. streets.main .. ' ' .. streets.cross)
-    PlaySound(-1, 'Lose_1st', 'GTAO_FM_Events_Soundset', false, 0, true)
-    local transG = 250
-    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-    local blip2 = AddBlipForCoord(coords.x, coords.y, coords.z)
-    local blipText = locale('info.ems_alert', text)
-    SetBlipSprite(blip, 153)
-    SetBlipSprite(blip2, 161)
-    SetBlipColour(blip, 1)
-    SetBlipColour(blip2, 1)
-    SetBlipDisplay(blip, 4)
-    SetBlipDisplay(blip2, 8)
-    SetBlipAlpha(blip, transG)
-    SetBlipAlpha(blip2, transG)
-    SetBlipScale(blip, 0.8)
-    SetBlipScale(blip2, 2.0)
-    SetBlipAsShortRange(blip, false)
-    SetBlipAsShortRange(blip2, false)
-    PulseBlip(blip2)
-    BeginTextCommandSetBlipName('STRING')
-    AddTextComponentString(blipText)
-    EndTextCommandSetBlipName(blip)
-    while transG ~= 0 do
-        Wait(720)
-        transG -= 1
-        SetBlipAlpha(blip, transG)
-        SetBlipAlpha(blip2, transG)
-        if transG == 0 then
-            RemoveBlip(blip)
-            return
-        end
-    end
-end)
-
 ---Revives player, healing all injuries
 ---Intended to be called from client or server.
 RegisterNetEvent('hospital:client:Revive', function()
@@ -99,10 +59,6 @@ CreateThread(function()
         EndTextCommandSetBlipName(blip)
     end
 end)
-
-function GetClosestPlayer()
-    return lib.getClosestPlayer(GetEntityCoords(cache.ped), 5.0, false)
-end
 
 function OnKeyPress(cb)
     if IsControlJustPressed(0, 38) then

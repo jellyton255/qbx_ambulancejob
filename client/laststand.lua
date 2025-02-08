@@ -1,28 +1,20 @@
-local isEscorting = false
-
----@param bool boolean
----TODO: this event name should be changed within qb-policejob to be generic
-AddEventHandler('hospital:client:SetEscortingState', function(bool)
-    isEscorting = bool
-end)
-
----Use first aid pack on nearest player.
 lib.callback.register('hospital:client:UseFirstAid', function()
-    if isEscorting then
-        exports.qbx_core:Notify(locale('error.impossible'), 'error')
+    if LocalPlayer.state.isEscorting then
+        lib.notify({ title = "You cannot do this right now.", type = 'error' })
         return
     end
 
-    if IsPedGettingIntoAVehicle(ped) then
-        exports.qbx_core:Notify("You cannot do this right now.", 'error')
+    if IsPedGettingIntoAVehicle(cache.ped) then
+        lib.notify({ title = "You cannot do this right now.", type = 'error' })
         return
     end
 
-    local player = GetClosestPlayer()
-    if player then
-        local playerId = GetPlayerServerId(player)
-        TriggerServerEvent('hospital:server:UseFirstAid', playerId)
-    end
+    local player = lib.getClosestPlayer(GetEntityCoords(cache.ped), 5.0)
+
+    if not player then return end
+
+    local playerId = GetPlayerServerId(player)
+    TriggerServerEvent('hospital:server:UseFirstAid', playerId)
 end)
 
 lib.callback.register('hospital:client:canHelp', function()
@@ -50,11 +42,9 @@ RegisterNetEvent('hospital:client:HelpPerson', function(targetId)
             },
         })
     then
-        ClearPedTasks(cache.ped)
-        exports.qbx_core:Notify(locale('success.revived'), 'success')
+        lib.notify({ title = locale('success.revived'), type = 'success' })
         TriggerServerEvent('hospital:server:RevivePlayer', targetId)
-    else
-        ClearPedTasks(cache.ped)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
+
+    ClearPedTasks(cache.ped)
 end)

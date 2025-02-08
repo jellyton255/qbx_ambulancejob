@@ -18,7 +18,7 @@ local function setBedCam()
 
     if IsPedDeadOrDying(cache.ped, true) then
         local pos = GetEntityCoords(cache.ped)
-        NetworkResurrectLocalPlayer(pos.x, pos.y, pos.z, GetEntityHeading(cache.ped), true, false)
+        NetworkResurrectLocalPlayer(pos.x, pos.y, pos.z, GetEntityHeading(cache.ped), 0, false)
     end
 
     if not bedOccupyingData then
@@ -68,7 +68,7 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
 
     if not skipOpenCheck then
         if lib.callback.await('qbx_ambulancejob:server:isBedTaken', false, hospitalName, bedIndex) then
-            exports.qbx_core:Notify(locale('error.beds_taken'), 'error')
+            lib.notify({ title = locale('error.beds_taken'), type = 'error' })
             return
         end
     end
@@ -91,7 +91,7 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
         lib.print.info("Starting healing thread (something goes wrong with respawning somewhere here probably)")
         Wait(5)
         if isRevive or isRevive == nil then
-            exports.qbx_core:Notify(locale('success.being_helped'), 'success')
+            lib.notify({ title = locale('success.being_helped'), type = 'success' })
             Wait(config.aiHealTimer * 1000)
             TriggerEvent('hospital:client:Revive')
         else
@@ -147,7 +147,7 @@ local function checkIn(hospitalName)
     then
         lib.callback('qbx_ambulancejob:server:checkIn', false, nil, cache.serverId, hospitalName)
     else
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
     end
 end
 

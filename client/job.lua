@@ -65,9 +65,9 @@ end
 ---Check status of nearest player and show treatment menu.
 ---Intended to be invoked by client or server.
 RegisterNetEvent('hospital:client:CheckStatus', function()
-    local player = GetClosestPlayer()
+    local player = lib.getClosestPlayer(GetEntityCoords(cache.ped), 5.0)
     if not player then
-        exports.qbx_core:Notify(locale('error.no_player'), 'error')
+        lib.notify({ title = locale('error.no_player'), type = 'error' })
         return
     end
 
@@ -75,7 +75,7 @@ RegisterNetEvent('hospital:client:CheckStatus', function()
 
     local status = lib.callback.await('qbx_ambulancejob:server:getPlayerStatus', false, playerId)
     if #status.injuries == 0 then
-        exports.qbx_core:Notify(locale('success.healthy_player'), 'success')
+        lib.notify({ title = locale('success.healthy_player'), type = 'success' })
         return
     end
 
@@ -105,13 +105,13 @@ end)
 RegisterNetEvent('hospital:client:RevivePlayer', function()
     local hasFirstAid = exports.ox_inventory:Search('count', 'firstaid') > 0
     if not hasFirstAid then
-        exports.qbx_core:Notify(locale('error.no_firstaid'), 'error')
+        lib.notify({ title = locale('error.no_firstaid'), type = 'error' })
         return
     end
 
-    local player = GetClosestPlayer()
+    local player = lib.getClosestPlayer(GetEntityCoords(cache.ped), 5.0)
     if not player then
-        exports.qbx_core:Notify(locale('error.no_player'), 'error')
+        lib.notify({ title = locale('error.no_player'), type = 'error' })
         return
     end
 
@@ -134,11 +134,11 @@ RegisterNetEvent('hospital:client:RevivePlayer', function()
         })
     then
         StopAnimTask(cache.ped, HealAnimDict, 'exit', 1.0)
-        exports.qbx_core:Notify(locale('success.revived'), 'success')
+        lib.notify({ title = locale('success.revived'), type = 'success' })
         TriggerServerEvent('hospital:server:RevivePlayer', GetPlayerServerId(player))
     else
         StopAnimTask(cache.ped, HealAnimDict, 'exit', 1.0)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
     end
 end)
 
@@ -147,13 +147,13 @@ end)
 RegisterNetEvent('hospital:client:TreatWounds', function()
     local hasBandage = exports.ox_inventory:Search('count', 'bandage') > 0
     if not hasBandage then
-        exports.qbx_core:Notify(locale('error.no_bandage'), 'error')
+        lib.notify({ title = locale('error.no_bandage'), type = 'error' })
         return
     end
 
-    local player = GetClosestPlayer()
+    local player = lib.getClosestPlayer(GetEntityCoords(cache.ped), 5.0)
     if not player then
-        exports.qbx_core:Notify(locale('error.no_player'), 'error')
+        lib.notify({ title = locale('error.no_player'), type = 'error' })
         return
     end
 
@@ -176,11 +176,11 @@ RegisterNetEvent('hospital:client:TreatWounds', function()
         })
     then
         StopAnimTask(cache.ped, HealAnimDict, 'exit', 1.0)
-        exports.qbx_core:Notify(locale('success.helped_player'), 'success')
+        lib.notify({ title = locale('success.helped_player'), type = 'success' })
         TriggerServerEvent('hospital:server:TreatWounds', GetPlayerServerId(player))
     else
         StopAnimTask(cache.ped, HealAnimDict, 'exit', 1.0)
-        exports.qbx_core:Notify(locale('error.canceled'), 'error')
+        lib.notify({ title = locale('error.canceled'), type = 'error' })
     end
 end)
 

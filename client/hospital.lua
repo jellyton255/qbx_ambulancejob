@@ -62,6 +62,7 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
     lib.print.info('putPlayerInBed', hospitalName, bedIndex, isRevive, skipOpenCheck, IsInHospitalBed)
 
     if IsInHospitalBed then
+        lib.notify({ title = "There is already a person in this bed.", type = 'error' })
         lib.print.warn("IsInHospitalBed: Player already in bed")
         return
     end

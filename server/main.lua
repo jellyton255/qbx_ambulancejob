@@ -190,7 +190,7 @@ AddEventHandler('onResourceStart', function(resource)
 	registerArmory()
 end)
 
-RegisterServerEvent('QBCore:Everfall:EMS:Timeclock', function(player, ClockingIn)
+RegisterNetEvent('QBCore:Everfall:EMS:Timeclock', function(player, ClockingIn)
 	local source = player.PlayerData.source
 	local department = "SAMS"
 	local data = {

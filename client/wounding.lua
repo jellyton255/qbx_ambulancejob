@@ -120,7 +120,7 @@ end
 
 CreateThread(function()
     while true do
-        Wait(1)
+        Wait(0)
         if OnPainKillers then
             consumePainKiller()
         else

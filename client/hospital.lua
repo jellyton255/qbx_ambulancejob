@@ -101,7 +101,9 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
         end
     end)
 
-    TriggerServerEvent('qbx_ambulancejob:server:playerEnteredBed', hospitalName, bedIndex)
+    if isRevive then
+        TriggerServerEvent('qbx_ambulancejob:server:playerEnteredBed', hospitalName, bedIndex)
+    end
 end
 
 RegisterNetEvent('qbx_ambulancejob:client:putPlayerInBed', function(hospitalName, bedIndex)
@@ -264,6 +266,7 @@ local function leaveBed()
     bedOccupyingData = nil
     IsInHospitalBed = false
     exports.qbx_medical:EnableDamageEffects()
+    exports.qbx_medical:AllowRespawn()
 
     if QBX.PlayerData.metadata.injail then return end
 
@@ -276,6 +279,9 @@ CreateThread(function()
         if IsInHospitalBed and CanLeaveBed then
             lib.showTextUI(locale('text.bed_out'))
             while IsInHospitalBed and CanLeaveBed do
+                if not IsEntityPlayingAnim(cache.ped, InBedDict, InBedAnim, 3) then
+                    lib.playAnim(cache.ped, InBedDict, InBedAnim, 8.0, 1.0, -1, 1, 0, false, 0, false)
+                end
                 OnKeyPress(leaveBed)
                 Wait(0)
             end

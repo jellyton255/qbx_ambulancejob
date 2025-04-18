@@ -82,7 +82,7 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
     IsInHospitalBed = true
 
     exports.qbx_medical:DisableDamageEffects()
-    exports.qbx_medical:disableRespawn()
+    exports.qbx_medical:DisableRespawn()
 
     CanLeaveBed = false
 
@@ -101,9 +101,9 @@ local function putPlayerInBed(hospitalName, bedIndex, isRevive, skipOpenCheck)
         end
     end)
 
-    if isRevive then
-        TriggerServerEvent('qbx_ambulancejob:server:playerEnteredBed', hospitalName, bedIndex)
-    end
+    --if isRevive then
+    TriggerServerEvent('qbx_ambulancejob:server:playerEnteredBed', hospitalName, bedIndex)
+    --end
 end
 
 RegisterNetEvent('qbx_ambulancejob:client:putPlayerInBed', function(hospitalName, bedIndex)

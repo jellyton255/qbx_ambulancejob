@@ -163,34 +163,33 @@ if config.useTarget then
     CreateThread(function()
         for hospitalName, hospital in pairs(sharedConfig.locations.hospitals) do
             if hospital.checkIn then
-                exports.sleepless_interact:addCoords({
-                    id = hospitalName .. '_checkin',
-                    coords = hospital.checkIn,
-                    renderDistance = 7.5,
-                    activeDistance = 2.5,
-                    debug = config.debugPoly,
-                    options = {
-                        {
-                            label = locale('text.check'),
-                            icon = 'fas fa-clipboard',
-                            onSelect = function()
-                                checkIn(hospitalName)
-                            end,
-                        },
-                        {
-                            label = "Check Carried Person In",
-                            icon = "fa fa-clipboard",
-                            canInteract = function()
-                                return playerState.isCarrying or playerState.isEscorting
-                            end,
-                            onSelect = function()
-                                local player = playerState.isCarrying or playerState.isEscorting
-                                if player then
-                                    TriggerServerEvent('hospital:server:putPlayerInBed', player, hospitalName,
-                                        lib.callback.await("qbx_ambulancejob:server:getOpenBed", false, hospitalName))
-                                end
-                            end,
-                        }
+                exports.sleepless_interact:addCoords(hospital.checkIn, {
+                    {
+                        id = hospitalName .. '_checkin',
+                        label = locale('text.check'),
+                        icon = 'fas fa-clipboard',
+                        onSelect = function()
+                            checkIn(hospitalName)
+                        end,
+                        debug = config.debugPoly,
+                        distance = 2.5,
+                    },
+                    {
+                        id = hospitalName .. '_checkin',
+                        label = "Check Carried Person In",
+                        icon = "fa fa-clipboard",
+                        canInteract = function()
+                            return playerState.isCarrying or playerState.isEscorting
+                        end,
+                        onSelect = function()
+                            local player = playerState.isCarrying or playerState.isEscorting
+                            if player then
+                                TriggerServerEvent('hospital:server:putPlayerInBed', player, hospitalName,
+                                    lib.callback.await("qbx_ambulancejob:server:getOpenBed", false, hospitalName))
+                            end
+                        end,
+                        debug = config.debugPoly,
+                        distance = 2.5,
                     }
                 })
 
@@ -307,6 +306,6 @@ AddEventHandler('onResourceStop', function(resourceName)
     onPlayerUnloaded()
 
     for _, interaction in ipairs(Interactions) do
-        exports.sleepless_interact:removeById(interaction)
+        exports.sleepless_interact:removeCoords(interaction)
     end
 end)

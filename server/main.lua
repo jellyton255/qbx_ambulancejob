@@ -87,21 +87,20 @@ RegisterNetEvent('hospital:server:UseFirstAid', function(targetId)
 	end
 
 	TriggerClientEvent('hospital:client:HelpPerson', src, targetId)
-	local Player = exports.qbx_core:GetPlayer(src)
-	local Player2 = exports.qbx_core:GetPlayer(targetId)
+	local player = exports.qbx_core:GetPlayer(src)
 
-	exports.ef_prime:CreateLog("PlayerHospitalEnteredBed", "Used First Aid Kit", "green", nil, false, {
-		author = {
-			name = GetPlayerName(src) .. " (Citizen ID: " .. Player.PlayerData.citizenid .. ")"
-		},
-		fields = {
-			{
-				name = "Target",
-				value = GetPlayerName(targetId) .. " (Citizen ID: " .. Player2.PlayerData.citizenid .. ")",
-				inline = true
-			},
+	local playerName = player.PlayerData.name .. " (" .. player.PlayerData.citizenid .. ")"
+	local targetName = target.PlayerData.name .. " (" .. target.PlayerData.citizenid .. ")"
+
+	exports.ef_prime:Log({
+		event = 'hospital',
+		subevent = 'use_first_aid',
+		message = playerName .. " used First Aid Kit on " .. targetName,
+		source = src,
+		tags = {
+			target = target.PlayerData.citizenid
 		}
-	}, src)
+	})
 end)
 
 lib.callback.register('qbx_ambulancejob:server:getNumDoctors', function()

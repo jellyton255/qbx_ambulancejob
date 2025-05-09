@@ -92,7 +92,7 @@ RegisterNetEvent('hospital:server:UseFirstAid', function(targetId)
 	local playerName = player.PlayerData.name .. " (" .. player.PlayerData.citizenid .. ")"
 	local targetName = target.PlayerData.name .. " (" .. target.PlayerData.citizenid .. ")"
 
-	exports.ef_prime:Log({
+	exports.ef_logs:Log({
 		event = 'hospital',
 		subevent = 'use_first_aid',
 		message = playerName .. " used First Aid Kit on " .. targetName,

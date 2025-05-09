@@ -77,28 +77,6 @@ RegisterNetEvent('qbx_ambulancejob:server:playerEnteredBed', function(hospitalNa
 	end
 
 	hospitalBedsTaken[hospitalName][bedIndex] = true
-
-	local player = exports.qbx_core:GetPlayer(src)
-
-	if not player then return end
-
-	exports.ef_prime:CreateLog("PlayerHospitalEnteredBed", "Hospital Bed", "green", nil, false, {
-		author = {
-			name = GetPlayerName(src) .. " (Citizen ID: " .. player.PlayerData.citizenid .. ")"
-		},
-		fields = {
-			{
-				name = "Hospital Name",
-				value = hospitalName,
-				inline = true
-			},
-			{
-				name = "Bed Index",
-				value = bedIndex,
-				inline = true
-			},
-		}
-	}, src)
 end)
 
 RegisterNetEvent('qbx_ambulancejob:server:playerLeftBed', function(hospitalName, bedIndex)
